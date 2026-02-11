@@ -4,6 +4,7 @@ import android.R.attr.contentDescription
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -11,6 +12,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,6 +26,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -44,11 +47,6 @@ fun Create_card_screen() {
     Create_card()
 }
 
-@Composable
-fun GenderDropMenu() {
-
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExposedDropdownMenu() {
@@ -65,9 +63,9 @@ fun ExposedDropdownMenu() {
                 value = selectedOption,
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Выберите вариант") },
+                label = { Text("Выберите пол") },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                modifier = Modifier.menuAnchor()
+                modifier = Modifier.fillMaxWidth().menuAnchor()
             )
 
             DropdownMenu(
@@ -92,6 +90,11 @@ fun ExposedDropdownMenu() {
 
 @Composable
 fun Create_card() {
+    val name = remember { mutableStateOf("") }
+    val otchestvo = remember { mutableStateOf("") }
+    val surname = remember { mutableStateOf("") }
+    val birthDate = remember { mutableStateOf("") }
+
     Scaffold(
         topBar = { Header_skip() }
     ) { innerPadding ->
@@ -117,8 +120,57 @@ fun Create_card() {
                 color = Color(0xff939396)
             )
 
+
+            InputField(
+                onTextChange = { newValue ->
+                    name.value = newValue
+                },
+                text = name.value,
+                placeholder = "Имя"
+            )
+            InputField(
+                onTextChange = { newValue ->
+                    otchestvo.value = newValue
+                },
+                text = otchestvo.value,
+                placeholder = "Отчество"
+            )
+            InputField(
+                onTextChange = { newValue ->
+                    surname.value = newValue
+                },
+                text = surname.value,
+                placeholder = "Фамилия"
+            )
+            InputField(
+                onTextChange = { newValue ->
+                    birthDate.value = newValue
+                },
+                text = birthDate.value,
+                placeholder = "Дата Рождения"
+            )
+
             ExposedDropdownMenu()
 
+            Button(
+                onClick = {
+
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+                    .height(60.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xff1A6FEE),
+                ),
+                shape = RoundedCornerShape(20),
+
+            ) {
+                Text(
+                    text = "Далее",
+                    fontSize = 20.sp,
+                )
+            }
         }
     }
 }
@@ -155,21 +207,33 @@ fun Header_skip() {
 fun InputField(
     onTextChange: (String) -> Unit,
     text: String,
+    placeholder: String,
 ) {
-    BasicTextField(
+    TextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(20.dp)
-            .height(48.dp)
             .border(
                 width = 1.dp,
                 color = Color(0xffB8C1CC),
                 shape = MaterialTheme.shapes.small
             )
-            .background(Color(0xffF5F5F9))
+//            .background(Color(0xffF5F5F9))
         ,
-        onValueChange = {},
-        value = "",
+        onValueChange = {newValue ->  onTextChange(newValue)},
+        value = text,
+        placeholder = {
+            Text(
+                text = placeholder,
+                color = Color.Gray
+            )
+        },
+        colors = TextFieldDefaults.colors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+        )
+
+
     )
 }
 
