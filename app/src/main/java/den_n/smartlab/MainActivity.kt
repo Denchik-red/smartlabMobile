@@ -8,6 +8,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import den_n.smartlab.ui.screens.Create_card_screen
 import den_n.smartlab.ui.screens.Create_password_screen
 import den_n.smartlab.ui.screens.Email_confirm_screen
 import den_n.smartlab.ui.screens.First_info_screen
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             NavHost(
                 navController = navController,
-                startDestination = "Create_password_screen"
+                startDestination = "Create_card_screen"
             ) {
                 composable("Load_screen") { Load_screen(navController) }
                 composable("First_info_screen") { First_info_screen(navController) }
@@ -33,6 +34,7 @@ class MainActivity : ComponentActivity() {
                 composable("Login_screen") { Login_screen(navController) }
                 composable("Email_confirm_screen") { Email_confirm_screen(navController) }
                 composable("Create_password_screen") { Create_password_screen() }
+                composable("Create_card_screen") { Create_card_screen() }
             }
         }
     }
